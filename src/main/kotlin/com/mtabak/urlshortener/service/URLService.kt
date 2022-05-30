@@ -12,8 +12,9 @@ class URLService(val repository: URLRepository) {
     fun getOrigin(hash: String): Optional<URL> = repository.findById(hash)
 
     fun createShortURL(originURL: String): URL {
+        println(hashString(originURL))
         return repository.save(
-                URL(hashString(originURL),
+                URL(hashString(originURL).substring(0, 8),
                 originURL,
                 LocalDateTime.now(),
                 LocalDateTime.now().plusDays(30)))

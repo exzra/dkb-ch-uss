@@ -13,7 +13,7 @@ class URL(
     val hash: String?=null,
 
     @Column(nullable = false)
-    val originURL: String,
+    val originUrl: String,
 
     @Column(nullable = false)
     val creationDate: LocalDateTime,

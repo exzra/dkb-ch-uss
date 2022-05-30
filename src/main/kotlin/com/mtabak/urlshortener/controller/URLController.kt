@@ -17,7 +17,7 @@ class URLController(private val urlService: URLService) {
         val headers = HttpHeaders()
         with(urlService) {
             getOrigin(hash)
-                .map { origin ->  headers.add("Location", origin.originURL)}
+                .map { origin ->  headers.add("Location", origin.originUrl)}
         }
 
         if (headers.isEmpty()) {
