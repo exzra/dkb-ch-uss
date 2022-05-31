@@ -1,23 +1,32 @@
-# Getting Started
+# Url shortener
 
-### Reference Documentation
+### endpoints
 
-For further reference, please consider the following sections:
+#### 
+    /url:
+        summary: "Create short link"
+            post:
+                RequestBody:
+                    url: String, required
+####
+    /{hash}
+        summary: "Get origin link"
+            get: 
+                RequestParams:
+                    hash: String
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.7.0/maven-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/2.7.0/maven-plugin/reference/html/#build-image)
-* [Spring Configuration Processor](https://docs.spring.io/spring-boot/docs/2.7.0/reference/htmlsingle/#configuration-metadata-annotation-processor)
-* [Spring Web](https://docs.spring.io/spring-boot/docs/2.7.0/reference/htmlsingle/#boot-features-developing-web-applications)
-* [Flyway Migration](https://docs.spring.io/spring-boot/docs/2.7.0/reference/htmlsingle/#howto-execute-flyway-database-migrations-on-startup)
-* [Spring Data JPA](https://docs.spring.io/spring-boot/docs/2.7.0/reference/htmlsingle/#boot-features-jpa-and-spring-data)
+### Implementation details
 
-### Guides
-
-The following guides illustrate how to use some features concretely:
-
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/bookmarks/)
-* [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
-
+####
+    - Layered architecture (Controller-Service-Repository-Domain)
+    - No Mappers to map DTOs and entity objects
+    - TODO: logging, infromative log records
+    - h2 in memory DB for tests (simple and fast)
+    - Speaking of hash - it is now cut to 8 chars, so there we are limited with amount of links before collision
+            to solve this, we could have used users ID as a part of short link for example
+    - Config added per environment[DEV-STAGING-PROD], 
+        it is implemented as if we had secrets stored in AWS secrets manager for example
+    - Since the flow is not complicated at the moment, 
+        the API can consume requests while it has available connections in the pool. Same works for the DB. 
+    - TODO: add more/update scenarious in tests
+    - TODO: added expiration date which is not used for now
