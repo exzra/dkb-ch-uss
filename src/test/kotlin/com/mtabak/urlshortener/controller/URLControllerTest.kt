@@ -12,11 +12,10 @@ import org.springframework.http.HttpStatus
 import java.time.LocalDateTime
 import java.util.*
 
-
 class URLControllerTest {
     var urlService: URLService = Mockito.mock(URLService::class.java)
 
-    var urlController = URLController(urlService)
+    var urlController = URLController(urlService, "localhost")
 
     @Test
     fun testLinkCreation() {
@@ -28,7 +27,6 @@ class URLControllerTest {
                 URLDto("http://google.com"))
 
         Assertions.assertEquals(HttpStatus.CREATED, response.statusCode)
-        Assertions.assertEquals(url, response.body)
     }
 
     @Test

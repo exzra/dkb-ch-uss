@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RestController
-class URLController(private val urlService: URLService) {
-    @Value("\${application-host}")
-    lateinit var host: String
+class URLController(private val urlService: URLService, @Value("\${application-host}") val host: String) {
 
     @GetMapping("/{hash}", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getOrigin(@PathVariable hash: String): ResponseEntity<String> {
