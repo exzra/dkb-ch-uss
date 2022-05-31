@@ -13,10 +13,11 @@ class URLService(val repository: URLRepository) {
 
     fun createShortURL(originURL: String): URL {
         return repository.save(
-                URL(hashString(originURL).substring(0, 8),
-                originURL,
-                LocalDateTime.now(),
-                LocalDateTime.now().plusDays(30)))
+                URL(
+                    hashString(originURL).substring(0, 8),
+                    originURL,
+                    LocalDateTime.now(),
+                    LocalDateTime.now().plusDays(30)))
     }
 
     private fun hashString(input: String): String {

@@ -1,8 +1,8 @@
 package com.mtabak.urlshortener.controller
 
-import com.mtabak.urlshortener.domain.URL
 import com.mtabak.urlshortener.domain.URLDto
 import com.mtabak.urlshortener.service.URLService
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -12,6 +12,9 @@ import javax.validation.Valid
 
 @RestController
 class URLController(private val urlService: URLService) {
+    @Value("\${application-host}")
+    lateinit var host: String
+
     @GetMapping("/{hash}", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getOrigin(@PathVariable hash: String): ResponseEntity<String> {
         val headers = HttpHeaders()
@@ -28,8 +31,8 @@ class URLController(private val urlService: URLService) {
     }
 
     @PostMapping("/url", produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun createShortLink(@RequestBody @Valid body: URLDto): ResponseEntity<URL> {
+    fun createShortLink(@RequestBody @Valid body: URLDto): ResponseEntity<String> {
         val shortURL = urlService.createShortURL(body.url)
-        return ResponseEntity(shortURL, HttpStatus.CREATED)
+        return ResponseEntity(StringBuilder(host).append("/").append(shortURL.hash).toString(), HttpStatus.CREATED)
     }
 }
